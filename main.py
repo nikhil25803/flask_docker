@@ -3,17 +3,20 @@ from db import models
 from db.database import engine, SessionLocal
 from db.models import TasksDB
 
-
+# Initializing a database session
 session = SessionLocal()
 
+# Initializing a Flask application
 app = Flask(__name__)
 
 
+# Root path to test server
 @app.route("/")
 def index():
     return {"Message": "Server Running Successfully"}
 
 
+# Route to get details about particular task
 @app.route("/get/<int:task_id>", methods=["GET"])
 def get_task(task_id):
     if request.method == "GET":
@@ -33,7 +36,7 @@ def get_task(task_id):
     else:
         return {"message": "Method not allowed"}
 
-
+# Route to create a new task
 @app.route("/create", methods=["POST"])
 def create_taks():
     if request.method == "POST":
@@ -58,7 +61,7 @@ def create_taks():
     else:
         return {"message": "Method not allowed"}
 
-
+# Route to update a task
 @app.route("/update/<int:task_id>", methods=["PATCH"])
 def update_task(task_id: int):
     if request.method == "PATCH":
@@ -88,6 +91,7 @@ def update_task(task_id: int):
         return {"message": "Method not allowed"}
 
 
+# Route to delete a task
 @app.route("/delete/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id: int):
     if request.method == "DELETE":
@@ -106,3 +110,7 @@ def delete_task(task_id: int):
 
 
 models.Base.metadata.create_all(engine)
+
+
+if __name__=="__main__":
+    app.run()
